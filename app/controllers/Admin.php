@@ -74,4 +74,46 @@ class Admin extends Controller{
             redirect('/admin/pengguna');
         }
     }
+
+    // Kelas
+    public function kelas(){
+        $data['judul'] = 'Kelas';
+        $data['kelas'] = $this->model('Kelas_model')->getAllKelas();
+        $this->view('templates/header',$data);
+        $this->view('admin/kelas',$data);
+        $this->view('templates/footer');
+    }
+
+    public function form_tambah_kelas(){
+        $data['judul'] = 'Form Tambah Kelas';
+        $this->view('templates/header',$data);
+        $this->view('admin/form/form_tambah_kelas');
+        $this->view('templates/footer');
+    }
+
+    public function add_kelas(){
+        if($this->model('Kelas_model')->tambahKelas($_POST)){
+            redirect('/admin/kelas');
+        }
+    }
+
+    public function form_edit_kelas($id){
+        $data['judul'] = 'Form Edit Kelas';
+        $data['kelas'] = $this->model('Kelas_model')->getKelasById($id);
+        $this->view('templates/header',$data);
+        $this->view('admin/form_edit/form_edit_kelas',$data);
+        $this->view('templates/footer');
+    }
+
+    public function update_kelas($id){
+        if($this->model("Kelas_model")->updateKelas($id,$_POST)){
+            redirect('/admin/kelas');
+        }
+    }
+
+    public function delete_kelas($id){
+        if ($this->model('Kelas_model')->hapusKelas($id)) {
+            redirect("/admin/kelas");
+        }
+    }
 }
