@@ -116,4 +116,47 @@ class Admin extends Controller{
             redirect("/admin/kelas");
         }
     }
+
+    // Pembayaran
+    public function pembayaran(){
+        $data['judul'] = 'Pembayaran';
+        $data['pembayaran'] = $this->model('Pembayaran_model')->getAllPembayaran();
+        $this->view('templates/header',$data);
+        $this->view('admin/pembayaran',$data);
+        $this->view('templates/footer');
+    }
+
+    public function form_tambah_pembayaran(){
+        $data['judul'] = 'Form Tambah';
+        $this->view('templates/header',$data);
+        $this->view('admin/form/form_tambah_pembayaran');
+        $this->view('templates/footer');
+    }
+    public function form_edit_pembayaran($id){
+        $data['judul'] = 'Form Edit';
+        $data['pembayaran'] = $this->model('Pembayaran_model')->getPembayaranById($id);
+        $this->view('templates/header',$data);
+        $this->view('admin/form_edit/form_edit_pembayaran',$data);
+        $this->view('templates/footer');
+    }
+
+    public function add_pembayaran(){
+        if($this->model('Pembayaran_model')->tambahPembayaran($_POST)){
+            redirect("/admin/pembayaran");
+        }
+    }
+
+    public function update_pembayaran($id){
+        if($this->model('Pembayaran_model')->updatePembayaran($id,$_POST)){
+            redirect("/admin/pembayaran");
+        }
+    }
+
+    public function delete_pembayaran($id){
+        if ($this->model('Pembayaran_model')->hapusPembayaran($id)) {
+            redirect("/admin/pembayaran");
+        }
+    }
+
+
 }
