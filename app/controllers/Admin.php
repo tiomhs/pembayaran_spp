@@ -20,7 +20,7 @@ class Admin extends Controller{
     public function form_tambah_siswa(){
         $data['judul'] = 'Data Siswa';
         $data['kelas'] = $this->model('Kelas_model')->getAllKelas();
-        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole();
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole('2');
         $data['pembayaran'] = $this->model('Pembayaran_model')->getAllPembayaran();
         $this->view('templates/header',$data);
         $this->view('admin/form/form_tambah_siswa',$data);
@@ -39,7 +39,7 @@ class Admin extends Controller{
         $data['judul'] = 'Form Edit Siswa';
         $data['siswa'] = $this->model('Siswa_model')->getSiswaById($id);
         $data['kelas'] = $this->model('Kelas_model')->getAllKelas();
-        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole();
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole('2');
         $data['pembayaran'] = $this->model('Pembayaran_model')->getAllPembayaran();
         $this->view('templates/header',$data);
         $this->view('admin/form_edit/form_edit_siswa',$data);
@@ -65,7 +65,7 @@ class Admin extends Controller{
     // Pengguna
     
     public function pengguna(){
-        $data['judul'] = 'Data Siswa';
+        $data['judul'] = 'Data Pengguna';
         $data['allPengguna'] = $this->model('User_model')->getAllPengguna();
         $this->view('templates/header',$data);
         $this->view('admin/pengguna',$data);
@@ -184,6 +184,48 @@ class Admin extends Controller{
     public function delete_pembayaran($id){
         if ($this->model('Pembayaran_model')->hapusPembayaran($id)) {
             redirect("/admin/pembayaran");
+        }
+    }
+
+    // CRUD Petugas
+    public function petugas(){
+        $data['judul'] = 'Petugas';
+        $data['allPetugas'] = $this->model('Petugas_model')->getAllPetugas();
+        $this->view('templates/header',$data);
+        $this->view('admin/petugas',$data);
+        $this->view('templates/footer');
+    }
+    public function form_tambah_petugas(){
+        $data['judul'] = 'Petugas';
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole('1');
+        $this->view('templates/header',$data);
+        $this->view('admin/form/form_tambah_petugas',$data);
+        $this->view('templates/footer');
+    }
+
+    public function form_edit_petugas($id){
+        $data['judul'] = 'Form Edit';
+        $data['petugas'] = $this->model('Petugas_model')->getPetugasById($id);
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole('1');
+        $this->view('templates/header',$data);
+        $this->view('admin/form_edit/form_edit_petugas',$data);
+        $this->view('templates/footer');
+    }
+
+    public function add_petugas(){
+        if($this->model('Petugas_model')->tambahPetugas($_POST)){
+            redirect("/admin/petugas");
+        }
+    }
+
+    public function update_petugas($id){
+        if($this->model('Petugas_model')->updatePetugas($id,$_POST)){
+            redirect("/admin/petugas");
+        }
+    }
+    public function delete_petugas($id){
+        if($this->model('Petugas_model')->hapusPetugas($id)){
+            redirect("/admin/petugas");
         }
     }
 
