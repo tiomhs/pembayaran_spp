@@ -18,7 +18,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($data['allSiswa'] as $siswa) ?>
+                        <?php foreach($data['allSiswa'] as $siswa): ?>
                         <tr>
                             <td></td>
                             <td><?= $siswa['nisn']?></td>
@@ -28,10 +28,11 @@
                             <td><?= $siswa['telepon']?></td>
                             <td><?= $siswa['kompetensi_keahlian']?></td>
                             <td>
-                                <a href="<?= BASEURL; ?>/admin/siswa/edit_form_siswa/<?= $siswa['id']; ?>" class="btn btn-success">Edit</a>
+                                <a href="<?= BASEURL; ?>/admin/form_edit_siswa/<?= $siswa['id']; ?>" class="btn btn-success">Edit</a>
                                 <a href="<?= BASEURL; ?>/admin/delete_siswa/<?= $siswa['id']; ?>" class="btn btn-danger">Delete</a>
                             </td>
                         </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

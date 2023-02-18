@@ -20,16 +20,45 @@ class Admin extends Controller{
     public function form_tambah_siswa(){
         $data['judul'] = 'Data Siswa';
         $data['kelas'] = $this->model('Kelas_model')->getAllKelas();
-        $data['pengguna'] = $this->model('Pengguna_model')->getAllPengguna();
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole();
         $data['pembayaran'] = $this->model('Pembayaran_model')->getAllPembayaran();
         $this->view('templates/header',$data);
-        $this->view('admin/form/form_tambah_siswa');
+        $this->view('admin/form/form_tambah_siswa',$data);
         $this->view('templates/footer');
     }
 
-    public function delete_siswa($id){
-        if ($this->model('User_model')->hapusSiswa($id)) {
+    public function add_siswa(){
+        if($this->model('Siswa_model')->tambahSiswa($_POST) > 0){
             redirect("/admin/siswa");
+        }else {
+            echo "<script>alert('Terjadi Kesalahan!!!');</script>";
+        }
+    }
+
+    public function form_edit_siswa($id){
+        $data['judul'] = 'Form Edit Siswa';
+        $data['siswa'] = $this->model('Siswa_model')->getSiswaById($id);
+        $data['kelas'] = $this->model('Kelas_model')->getAllKelas();
+        $data['pengguna'] = $this->model('User_model')->getPenggunaByRole();
+        $data['pembayaran'] = $this->model('Pembayaran_model')->getAllPembayaran();
+        $this->view('templates/header',$data);
+        $this->view('admin/form_edit/form_edit_siswa',$data);
+        $this->view('templates/footer');
+    }
+    
+
+    public function update_siswa($id){
+        if ($this->model('Siswa_model')->updateSiswa($id,$_POST)) {
+            redirect("/admin/siswa");
+        }else {
+            echo "<script>alert('Terjadi Kesalahan!!!');</script>";
+        }
+    }
+    public function delete_siswa($id){
+        if ($this->model('Siswa_model')->hapusSiswa($id)) {
+            redirect("/admin/siswa");
+        }else {
+            echo "<script>alert('Terjadi Kesalahan!!!');</script>";
         }
     }
 

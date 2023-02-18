@@ -14,6 +14,13 @@ class User_model{
         $this->db->execute();
         return $this->db->resultSet();
     }
+    public function getPenggunaByRole(){
+        $query = "SELECT * FROM pengguna WHERE role=:role";
+        $this->db->query($query);
+        $this->db->bind('role','2');
+        $this->db->execute();
+        return $this->db->resultSet();
+    }
 
     public function getPenggunaById($id){
         $query = "SELECT * FROM pengguna WHERE id=:id";
