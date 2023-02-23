@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 16, 2023 at 01:26 AM
+-- Generation Time: Feb 23, 2023 at 12:19 AM
 -- Server version: 5.7.33
 -- PHP Version: 8.1.10
 
@@ -20,6 +20,16 @@ SET time_zone = "+00:00";
 --
 -- Database: `pembayaran_spp`
 --
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDataAll` (`in_id` INT, `in_db` VARCHAR(12))   BEGIN
+	DELETE FROM in_db WHERE id = in_id;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -83,7 +93,11 @@ CREATE TABLE `pengguna` (
 INSERT INTO `pengguna` (`id`, `username`, `password`, `role`) VALUES
 (1, 'admin', 'admin', '0'),
 (2, 'petugas', 'petugas', '1'),
-(3, 'tio', 'tio', '2');
+(3, 'tio', 'tio', '2'),
+(4, 'adi123', 'adi123', '2'),
+(5, 'bintang', 'bintang', '2'),
+(6, 'petugas2', 'petugas2', '1'),
+(7, 'petugas3', 'petugas3', '1');
 
 -- --------------------------------------------------------
 
@@ -103,7 +117,8 @@ CREATE TABLE `petugas` (
 
 INSERT INTO `petugas` (`id`, `nama`, `pengguna_id`) VALUES
 (1, 'ADMIN SPP', 1),
-(2, 'MAS BROO', 2);
+(2, 'MAS BROO', 2),
+(4, 'Mas Boby', 6);
 
 -- --------------------------------------------------------
 
@@ -128,7 +143,8 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id`, `nisn`, `nis`, `nama`, `alamat`, `telepon`, `kelas_id`, `pengguna_id`, `pembayaran_id`) VALUES
-(2, '000123', '28880', 'I GEDE TIO MAHESA DIPUTRA', 'perum', '081261782182', 1, 3, 1);
+(2, '000123', '28880', 'I GEDE TIO MAHESA DIPUTRA', 'perum', '081261782182', 1, 3, 1),
+(3, '000234', '28882', 'I Gusti Nyoman Adi Wiguna Sanjaya', 'Tegal Jaya', '08123456789', 2, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -151,7 +167,16 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id`, `tanggal_bayar`, `bulan_dibayar`, `tahun_dibayar`, `siswa_id`, `petugas_id`, `pembayaran_id`) VALUES
-(1, '2023-02-15 13:43:56', 1, 2023, 2, 2, 1);
+(1, '2023-02-15 13:43:56', 1, 2023, 2, 2, 1),
+(2, '2023-02-21 14:45:33', 2, 2023, 2, 2, 1),
+(3, '2023-02-21 14:45:34', 3, 2023, 2, 4, 1),
+(4, '2023-02-22 00:05:59', 5, 2023, 2, 1, 1),
+(5, '2023-02-22 02:20:50', 6, 2023, 2, 1, 1),
+(6, '2023-02-22 02:44:15', 9, 2023, 2, 1, 1),
+(7, '2023-02-22 02:50:54', 1, 2023, 3, 1, 1),
+(8, '2023-02-22 07:16:46', 1, 2023, 2, 1, 1),
+(9, '2023-02-22 14:30:51', 7, 2023, 3, 1, 1),
+(10, '2023-02-23 00:10:49', 8, 2023, 3, 4, 1);
 
 --
 -- Indexes for dumped tables
@@ -221,25 +246,25 @@ ALTER TABLE `pembayaran`
 -- AUTO_INCREMENT for table `pengguna`
 --
 ALTER TABLE `pengguna`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `petugas`
 --
 ALTER TABLE `petugas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
