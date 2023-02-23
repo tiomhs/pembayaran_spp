@@ -47,7 +47,7 @@
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" aria-label="Checkbox for following text input" value="<?= $bulan; ?>" name="bulan">
+                                            <input type="checkbox" aria-label="Checkbox for following text input" value="<?= $bulan; ?>" name="bulan_dibayar[]">
                                         </div>
                                     </div>
                                     <input type="text" class="form-control" aria-label="Text input with checkbox" value="Bulan ke-<?= $bulan ?>" Disabled>

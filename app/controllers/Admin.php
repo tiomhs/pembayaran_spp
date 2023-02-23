@@ -259,8 +259,8 @@ class Admin extends Controller{
         $this->view('templates/footer');
     }
 
-    public function add_transaksi(){
-            $transaksi = $this->model('Transaksi_model')->tambahTransaksi($_POST);
+    public function add_transaksi(){ 
+            $transaksi  = $this->model('Transaksi_model')->tambahTransaksi($_POST);
             if($transaksi){
                 redirect('/admin/transaksi');
             }else{
@@ -268,36 +268,34 @@ class Admin extends Controller{
             }
     }
 
-    // public function transaksi_detail($id){
-    //     $data['judul'] = 'Transaksi';
-    //     $data['TransaksiId'] = $this->model('Transaksi_model')->getTransaksiById($id);
-    //     $this->view('templates/header',$data);
-    //     $this->view('admin/transaksi_detail',$data);
-    //     $this->view('templates/footer');
-    // }
-    // public function form_tambah_transaksi(){
-    //     $data['judul'] = 'Transaksi';
-    //     $nisn = $_POST['nisn'];
-    //     $data['siswa'] = $this->model('Siswa_model')->getSiswaByNisn($nisn);
-    //     $id = $data['siswa']['id'];
-    //     $data['transaksi'] = $this->model('Transaksi_model')->getTransaksiId($id);
-    //     // var_dump($data['id']);die;
-    //     $this->view('templates/header',$data);
-    //     $this->view('admin/form/form_tambah_transaksi',$data);
-    //     $this->view('templates/footer');
-    // }
-    // public function find_siswa(){
-    //     // var_dump($_POST)['nisn'];
-    //     $this->view('templates/header',$data);
-    //     $this->view('admin/form/form_cari_data',$data);
-    //     $this->view('templates/footer');
-    // }
-    // public function finding(){
-    //     var_dump($_POST);
-    //     $data['judul'] = 'Transaksi';
-    //     $this->view('templates/header',$data);
-    //     $this->view('admin/form/form_cari_data',$data);
-    //     $this->view('templates/footer');
-    // }
+    public function laporan(){
+        $judul = 'Laporan';
+        $bulan = [
+            '7', '8', '9', '10', '11', '12', '1', '2', '3', '4', '5', '6'
+        ];
+        $transaksi = [];
+        $siswa = $this->model('Siswa_model')->getAllSiswa();
+        // var_dump($siswa);die;
+        foreach($siswa as $s){
+            $transaksi[$s['id']] = [];
+            $x = $this->model('Transaksi_model')->getTransaksiById($s['id']);
+            foreach($x as $y){
+                array_push($transaksi[$s['id']], $y['bulan_dibayar']);
+            }
+        }
+
+        $data = [
+            'judul' => $judul,
+            'bulan' => $bulan,
+            'transaksi' => $transaksi,
+            'siswa' => $siswa,
+        ];
+
+
+        // $data['history'] = $this->model('Transaksi_model')->getAllTransaksi();
+        $this->view('templates/header',$data);
+        $this->view('admin/laporan',$data);
+        $this->view('templates/footer');
+    }
 
 }

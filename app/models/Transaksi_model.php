@@ -37,16 +37,19 @@ class Transaksi_model{
     public function tambahTransaksi($data){
         var_dump($data);
         $date = date("Y-m-d H:i:s");
+        $year = date("Y");
         // var_dump($date);die;
-        $query = "INSERT INTO transaksi VALUES(null,:tanggal_bayar, :bulan_dibayar, :tahun_dibayar, :siswa_id, :petugas_id, :pembayaran_id)";
-        $this->db->query($query);
-        $this->db->bind('tanggal_bayar', $date);
-        $this->db->bind('bulan_dibayar', $data['bulan']);
-        $this->db->bind('tahun_dibayar', 2023);
-        $this->db->bind('siswa_id', $data['siswa_id']);
-        $this->db->bind('petugas_id', $data['petugas_id']);
-        $this->db->bind('pembayaran_id', $data['pembayaran_id']);
-        $this->db->execute();
+        foreach ($data['bulan_dibayar'] as $bulan) {
+            $query = "INSERT INTO transaksi VALUES(null,:tanggal_bayar, :bulan_dibayar, :tahun_dibayar, :siswa_id, :petugas_id, :pembayaran_id)";
+            $this->db->query($query);
+            $this->db->bind('tanggal_bayar', $date);
+            $this->db->bind('bulan_dibayar', $bulan);
+            $this->db->bind('tahun_dibayar', $year);
+            $this->db->bind('siswa_id', $data['siswa_id']);
+            $this->db->bind('petugas_id', $data['petugas_id']);
+            $this->db->bind('pembayaran_id', $data['pembayaran_id']);
+            $this->db->execute();
+        }
         return $this->db->rowCount();
     }
 
