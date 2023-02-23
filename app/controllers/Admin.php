@@ -229,5 +229,75 @@ class Admin extends Controller{
         }
     }
 
+    // transaksi
+    public function transaksi(){
+        $data['judul'] = 'Transaksi';
+        $data['siswa'] = $this->model('Siswa_model')->getAllSiswa();
+        $this->view('templates/header',$data);
+        $this->view('admin/transaksi',$data);
+        $this->view('templates/footer');
+    }
+
+    public function bayar($id){
+        $data['judul'] = 'Transaksi';
+        $data['siswa'] = $this->model('Siswa_model')->getSiswaById($id);
+        $data['history'] = $this->model('Transaksi_model')->getTransaksiById($id);
+        $data['bulan'] = [
+            '7', '8', '9', '10', '11', '12', '1', '2', '3', '4', '5', '6'
+        ];
+        $bulan_dibayar = [];
+        foreach($data['history'] as $history){
+            array_push($bulan_dibayar, $history['bulan_dibayar']);
+        }
+        // var_dump( $_SESSION['id']);die;
+        $data['petugas'] = $this->model('Petugas_model')->getPetugasBySession($_SESSION['id']);
+        
+        $data['bulan_dibayar'] = $bulan_dibayar;
+
+        $this->view('templates/header',$data);
+        $this->view('admin/bayar',$data);
+        $this->view('templates/footer');
+    }
+
+    public function add_transaksi(){
+            $transaksi = $this->model('Transaksi_model')->tambahTransaksi($_POST);
+            if($transaksi){
+                redirect('/admin/transaksi');
+            }else{
+                echo "gagal";
+            }
+    }
+
+    // public function transaksi_detail($id){
+    //     $data['judul'] = 'Transaksi';
+    //     $data['TransaksiId'] = $this->model('Transaksi_model')->getTransaksiById($id);
+    //     $this->view('templates/header',$data);
+    //     $this->view('admin/transaksi_detail',$data);
+    //     $this->view('templates/footer');
+    // }
+    // public function form_tambah_transaksi(){
+    //     $data['judul'] = 'Transaksi';
+    //     $nisn = $_POST['nisn'];
+    //     $data['siswa'] = $this->model('Siswa_model')->getSiswaByNisn($nisn);
+    //     $id = $data['siswa']['id'];
+    //     $data['transaksi'] = $this->model('Transaksi_model')->getTransaksiId($id);
+    //     // var_dump($data['id']);die;
+    //     $this->view('templates/header',$data);
+    //     $this->view('admin/form/form_tambah_transaksi',$data);
+    //     $this->view('templates/footer');
+    // }
+    // public function find_siswa(){
+    //     // var_dump($_POST)['nisn'];
+    //     $this->view('templates/header',$data);
+    //     $this->view('admin/form/form_cari_data',$data);
+    //     $this->view('templates/footer');
+    // }
+    // public function finding(){
+    //     var_dump($_POST);
+    //     $data['judul'] = 'Transaksi';
+    //     $this->view('templates/header',$data);
+    //     $this->view('admin/form/form_cari_data',$data);
+    //     $this->view('templates/footer');
+    // }
 
 }

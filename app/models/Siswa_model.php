@@ -9,7 +9,7 @@ class Siswa_model{
     }
 
     public function getAllSiswa(){
-        $query = "SELECT siswa.id, siswa.nisn, siswa.nis, siswa.nama, siswa.alamat, siswa.telepon, kelas.kompetensi_keahlian from siswa INNER JOIN kelas ON siswa.kelas_id = kelas.id";
+        $query = "SELECT siswa.id, siswa.nisn, siswa.nis, siswa.nama, siswa.alamat, siswa.telepon, kelas.kompetensi_keahlian, pembayaran.tahun_ajaran, pembayaran.nominal from siswa INNER JOIN kelas ON siswa.kelas_id = kelas.id INNER JOIN pembayaran ON siswa.pembayaran_id = pembayaran.id";
         $this->db->query($query);
         $this->db->execute();
         return $this->db->resultSet();
@@ -21,6 +21,12 @@ class Siswa_model{
         $this->db->bind('id',$id);
         return $this->db->singleSet();
     }
+    public function getSiswaByNisn($nisn){
+        $query = "SELECT siswa.id, siswa.nisn, siswa.nis, siswa.nama, siswa.telepon, kelas.id AS id_kelas, kelas.kompetensi_keahlian, pembayaran.nominal, pembayaran.id AS id_pembayaran FROM siswa INNER JOIN kelas ON kelas_id = kelas.id INNER JOIN pembayaran ON pembayaran_id = pembayaran.id WHERE nisn=:nisn";
+        $this->db->query($query);
+        $this->db->bind('nisn',$nisn);
+        return $this->db->singleSet();
+    }
 
     public function getSiswaByIdSession($id){
         $query = "SELECT siswa.id AS id_siswa, siswa.nama AS nama_siswa FROM `pengguna` INNER JOIN siswa ON pengguna.id = siswa.pengguna_id WHERE pengguna.id =:id";
@@ -28,6 +34,7 @@ class Siswa_model{
         $this->db->bind('id',$id);
         return $this->db->singleSet();
     }
+    
 
     public function hapusSiswa($id){
         $query = "DELETE FROM siswa WHERE id=:id ";

@@ -20,6 +20,12 @@ class Petugas_model{
         $this->db->bind('id', $id);
         return $this->db->singleSet();
     }
+    public function getPetugasBySession($id){
+        $query = "SELECT * FROM petugas WHERE pengguna_id=:id";
+        $this->db->query($query);
+        $this->db->bind('id', $id);
+        return $this->db->singleSet();
+    }
 
     public function tambahPetugas($data){
         $query = "INSERT INTO petugas VALUES(null, :nama, :pengguna_id)";

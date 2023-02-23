@@ -14,16 +14,19 @@ class Login extends Controller{
                 case '0':
                     $_SESSION['login'] = true;
                     $_SESSION['id'] = $login[0]['id'];
+                    $_SESSION['role'] = 0;
                     redirect("/admin/index");
                     break;
                 case '1':
                     $_SESSION['login'] = true;
                     $_SESSION['id'] = $login[0]['id'];
-                    redirect("/officer/index");
+                    $_SESSION['role'] = 1;
+                    redirect("/admin/index");
                     break;
                 case '2':
                     $_SESSION['login'] = true;
                     $_SESSION['id'] = $login[0]['id'];
+                    $_SESSION['role'] = 2;
                     redirect("/home/index");
                     break;          
                 default:
